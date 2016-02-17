@@ -1,0 +1,49 @@
+
+
+	grok { 
+		#match => { 
+		#	"message" => [ "^\[(?<time>[A-Za-z]+ [A-Za-z]+ \d+ \d+:\d+:\d+\.\d+ \d+)[^\[]+\[(?<module>[A-Za-z]+_?[A-Za-z]+):(?<level>[A-Za-z]+)[^ ]+ [^ ]+ (?<pid>\d+)[^ ]+ (?<errorid>[A-Za-z]+\d+)" ]
+		#}
+		match => [ "message", "%{HTTPDATE:[@metadata][timestamp]}"] 
+	}
+	date {
+		match => ["[@metadata][timestamp]","yyyy-MM-dd HH:mm:ss:SSS"]
+		timezone => "Asia/Shanghai"
+	}
+
+
+
+
+
+	str = event['time']
+			event['time'] = str.scan(/\w{3} \w{3} \d{2} \d{2}:\d{2}:\d{2}.\d{3}/)[0]+' '+str.scan(/\d{4}$/)[0]
+		
+
+
+elasticsearch {
+        host => "localhost"
+  		cluster => "loginsight_cluster"
+      	index => "main"
+	    document_type  => "error"
+    }
+
+
+
+^(?<ip>\d+\.\d+\.\d+\.\d+)[^\[]+\[(?<time>\d+\/[A-Za-z]+\/\d+:\d+:\d+:\d+ \+\d+)[^"]+"(?<method>[A-Za-z]+)[^\/]+(?<resource>\/[A-Za-z_0-9\.\/]+)[^\/]+\/(?<http>\d+\.\d+)[^ ]+ (?<statuscode>\d+) (?<bytes>[\d-]+)
+
+
+^(?<ip>::\d+)[^\[]+\[(?<time>\d+\/[A-Za-z]+\/\d+:\d+:\d+:\d+ \+\d+)[^\/]+\/(?<http>\d+\.\d+)[^ ]+ (?<statuscode>\d+)
+
+
+
+if event['message'].include? ('10.') 
+					event['ip'] = (event['message'].scan(/^(?<ip>\d+\.\d+\.\d+\.\d+)/))[0]
+				 	event['method'] = (event['message'].scan(/^[^\"]+\"(?<method>[A-Za-z]+)/))[0]
+				 	event['resource'] = (event['message'].scan(/^(?:[^\/]+\/){2}[^\/]+(?<resource>\/[A-Za-z_0-9\.\/]+)/))[0]
+				 	event['http'] = (event['message'].scan(/^(?:[^\/]+\/){5}(?<http>\d+\.\d+)/))[0]
+				 	event['statuscode'] = (event['message'].scan(/^(?:[^ ]+ ){8}(?<statuscode>\d+)/))[0]
+				 	event['bytes'] = (event['message'].scan(/^(?:[^ ]+ ){9}(?<bytes>\d+)/))[0]
+				elsif event['message'].include? ('10')
+					event['http'] = (event['message'].scan(/^(?:[^\/]+\/){3}(?<http>\d+\.\d+)/))[0]
+					event['statuscode'] = (event['message'].scan(/^(?:[^ ]+ ){8}(?<statuscode>\d+))[0]
+				end
