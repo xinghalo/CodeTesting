@@ -22,7 +22,7 @@ props.load(PropertiesTest.class.getClassLoader().getResourceAsStream(fileName));
 //获取属性值
 System.out.println(props.getProperty("name"));
 System.out.println(props.getProperty("age"));
-			System.out.println(props.getProperty("address","dalian"));//如果没有拿到属性值，会按照第二个参数作为默认值
+System.out.println(props.getProperty("address","dalian"));//如果没有拿到属性值，会按照第二个参数作为默认值
 			
 //修改属性值
 props.setProperty("name", "ttt");
@@ -38,4 +38,45 @@ File file = new File("D:\\result.properties");
 Writer fw = new FileWriter(file);
 props.store(fw, "conmments");
 fw.close();
+```
+## 源码测试
+
+```
+package xing.CodeJava.basic;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Writer;
+import java.util.Properties;
+
+
+public class PropertiesTest {
+	public static void main(String[] args) {
+		String fileName = "test.properties";
+		try {
+			//读取配置文件
+			Properties props = new Properties();
+//			props.load(PropertiesTest.class.getClassLoader().getResourceAsStream(fileName));//如果配置文件放在类目录下，可以直接通过类加载器读取
+			props.load(new FileReader("D:\\TestCode\\CodeJava\\CodeJava\\src\\main\\java\\xing\\CodeJava\\basic\\test.properties"));
+			
+			//获取属性值
+			System.out.println(props.getProperty("name"));
+			System.out.println(props.getProperty("age"));
+			System.out.println(props.getProperty("address","dalian"));//如果没有拿到属性值，会按照第二个参数作为默认值
+			
+			//修改属性值
+			props.setProperty("name", "ttt");
+			System.out.println(props.getProperty("name"));
+			
+			//持久化配置文件
+			File file = new File("D:\\TestCode\\CodeJava\\CodeJava\\src\\main\\java\\xing\\CodeJava\\basic\\result.properties");
+			Writer fw = new FileWriter(file);
+			props.store(fw, "conmments");
+			fw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+}
 ```
