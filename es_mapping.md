@@ -26,11 +26,16 @@ NOTE When you store individual fields as well, you should take into account that
 字符串类型，es中最常用的类型，[官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/string.html)
 
 比较重要的参数：
+
 ##### index分析
+
 - analyzed(默认)
 - not_analyzed
 - no
+
+
 ##### store存储
+
 - true 独立存储
 - false（默认）不存储，从_source中解析
 
@@ -39,10 +44,14 @@ NOTE When you store individual fields as well, you should take into account that
 数值类型，注意numeric并不是一个类型，它包括多种类型，比如：long,integer,short,byte,double,float，每种的存储空间都是不一样的，一般默认推荐integer和float。[官方文档参考](https://www.elastic.co/guide/en/elasticsearch/reference/current/number.html)
 
 重要的参数：
+
 ##### index分析
+
 - not_analyzed(默认) ，设置为该值可以保证该字段能通过检索查询到
 - no
+
 ##### store存储
+
 - true 独立存储
 - false（默认）不存储，从_source中解析
 
@@ -51,13 +60,19 @@ NOTE When you store individual fields as well, you should take into account that
 日期类型，该类型可以接受一些常见的日期表达方式，[官方文档参考](https://www.elastic.co/guide/en/elasticsearch/reference/current/date.html)。
 
 重要的参数：
+
 ##### index分析
+
 - not_analyzed(默认) ，设置为该值可以保证该字段能通过检索查询到
 - no
+
 ##### store存储
+
 - true 独立存储
 - false（默认）不存储，从_source中解析
+
 ##### format格式化
+
 - strict_date_optional_time||epoch_millis（默认）
 - 你也可以自定义格式化内容，比如
 ```
@@ -73,10 +88,14 @@ NOTE When you store individual fields as well, you should take into account that
 这个类型可以用来标识IPV4的地址，[参考官方文档](https://www.elastic.co/guide/en/elasticsearch/reference/current/ip.html)
 
 常用参数：
+
 ##### index分析
+
 - not_analyzed(默认) ，设置为该值可以保证该字段能通过检索查询到
 - no
+
 ##### store存储
+
 - true 独立存储
 - false（默认）不存储，从_source中解析
 
@@ -88,9 +107,13 @@ NOTE When you store individual fields as well, you should take into account that
 - True: 所有非False的都是true
 
 重要的参数：
+
 ##### index分析
+
 - not_analyzed(默认) ，设置为该值可以保证该字段能通过检索查询到
 - no
+
 ##### store存储
+
 - true 独立存储
 - false（默认）不存储，从_source中解析
